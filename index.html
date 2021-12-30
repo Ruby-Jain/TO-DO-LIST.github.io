@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do-List</title>
+    <style>
+        body {
+            background-image: url(img/img2.jpg);
+            font-family: cursive;
+            font-stretch: expanded;
+            font-weight: bolder;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            margin-top: 150px;
+            background-image: linear-gradient(rgb(255, 255, 255), rgb(255, 0, 221, 0.45));
+            padding: 20px;
+            box-sizing: border-box;
+            border-style: dashed;
+            border-radius: 70px;
+            border-color: black;
+            /* height: 400px; */
+        }
+
+        input[type="button"] {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            border-color: black;
+            border-width: 4px;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            border-color: black;
+            border-width: 4px;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        #reset_btn {
+            padding: 10px;
+            margin: 10px;
+            font-size: 20px;
+            border-radius: 10px;
+            border-color: black;
+            border-width: 4px;
+            text-align: center;
+            font-weight: bolder;
+        }
+
+        #list_item {
+            font-family: sans-serif;
+            font-stretch: expanded;
+            font-weight: bold;
+        }
+
+        .btns {
+            text-align: center;
+        }
+
+        li {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <h1 class="heading">TO DO LIST</h1>
+
+        <form>
+            <!-- reset button will only work in a form  -->
+            <div class="list_elements">
+
+                <div class="input">
+                    <input type="text" placeholder="ToDo-Items" id="box"></input>
+                </div>
+                <br>
+                <div class="btns">
+                    <input type="button" value="Add Items" onclick=add_item()>
+                    <input type="button" value="Delete All Items" id="del_all">
+                    <button type="reset" id="reset_btn">Reset</input>
+                </div>
+            </div>
+
+            <div class="added_items">
+                <ol id="list_item"></ol><!-- list items(li) will be added inside ul tag -->
+            </div>
+        </form>
+
+    </div>
+    <script>
+        function add_item() { /* getting all the objects from the html tags using their ids */
+            let item = document.getElementById("box");
+            let list_item = document.getElementById("list_item");
+            let del_all = document.getElementById("del_all");
+            let added_items = document.getElementById("added_items");
+            let container = document.getElementById("container");
+
+
+            if (item.value != "") { /* if data is there in the input box */
+                let line_brk = document.createElement('br');
+
+                let make_li = document.createElement('li'); /* creating list item element(li)/opening li tag */
+                make_li.appendChild(document.createTextNode(item.value));/* inserting the data of input box in the list */
+                list_item.appendChild(make_li);/* closing the list item tag(li lag) */
+                //make_li.appendChild(line_brk);
+                list_item.appendChild(line_brk); /* inserting line break after li */
+                item.value = ""; //clearing from input text box for adding data to list
+
+                let item_btn = document.createElement("BUTTON");/* Creating and appending/inserting a new button in document using js */
+                item_btn.innerHTML = "Delete";//giving name of the button
+                document.body.appendChild(item_btn);//making the button visible in body of the document
+                list_item.appendChild(item_btn);//inserting button in the list item for deleting that particular list.
+
+                item_btn.onclick = function () { /* clicking list's delete button deletes that particular list item */
+                    make_li.parentNode.removeChild(make_li);//deletes the item list
+                    this.parentNode.removeChild(this);//delete button deletes itself
+                }
+
+                del_all.onclick = function () { /*clicking delete all button deletes everything in the list */
+                    list_item.parentNode.removeChild(list_item);
+                    setTimeout(location.reload(), 1000); //reloads page after deleting everything for adding list again
+                }
+            }
+            else { /* if no data is there in the input box */
+                alert("Please add atleast one item to the list");
+            }
+        }
+    </script>
+</body>
+
+</html>
